@@ -1,0 +1,20 @@
+version: "3"
+services:
+  telegraf:
+    container_name: telegraf-stats
+    image: telegraf:1.8.3
+    volumes:
+      - ${PWD}/telegraf.conf:/etc/telegraf/telegraf.conf
+
+  traffic_stats:
+    container_name: traffic_stats
+    image: traffic_stats:latest
+    build:
+      context: .
+      dockerfile: ./Dockerfile.traffic_stats
+    volumes:
+      - ${PWD}/traffic_stats.cfg:/opt/traffic_stats/conf/traffic_stats.cfg
+    depends_on:
+      - telegraf
+  
+
